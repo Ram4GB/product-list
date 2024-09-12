@@ -2,6 +2,7 @@ import Form from '@/components/Form/Form';
 import InputControl from '@/components/Form/Input';
 import RichTextEditor from '@/components/Form/RichTextEditor';
 import SelectControl from '@/components/Form/Select';
+import { Product } from '@/mockApi/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Stack } from '@mui/material';
 import { useForm } from 'react-hook-form';
@@ -17,13 +18,7 @@ const schema = yup
     })
     .required();
 
-interface FormData {
-    title: string;
-    description: string;
-    price: number;
-    productType?: string;
-    tags?: string[];
-}
+type FormData = Omit<Product, 'id'>;
 
 const CreateProduct = () => {
     const form = useForm<FormData>({
