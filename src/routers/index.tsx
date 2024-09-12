@@ -1,5 +1,6 @@
 import MainLayout from '@/layouts/MainLayout';
 import Homepage from '@/sections/Homepage';
+import ProductForm from '@/sections/ProductForm';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { RouterPath } from '../const/routerPath';
@@ -21,7 +22,7 @@ const AppRouter = () => {
                         },
                         {
                             path: RouterPath.CreateProduct,
-                            element: 'Products',
+                            element: <ProductForm />,
                         },
                     ],
                 },
