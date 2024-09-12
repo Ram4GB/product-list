@@ -34,7 +34,7 @@ type FormData = {
     tags?: string[];
 };
 
-const CreateProduct = () => {
+const BaseForm = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const { enqueueSnackbar } = useSnackbar();
@@ -100,4 +100,4 @@ const CreateProduct = () => {
     );
 };
 
-export default CreateProduct;
+export default BaseForm;

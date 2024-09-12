@@ -1,13 +1,13 @@
 import Heading from '@/components/Heading';
 import { Container } from '@mui/material';
 
-import CreateProduct from './CreateProduct';
+import BaseForm from './BaseForm';
 
 const ProductForm = () => {
     return (
         <Container maxWidth="md" className="mt-6 mb-6">
             <Heading level="h1">Create product</Heading>
-            <CreateProduct />
+            <BaseForm />
         </Container>
     );
 };
