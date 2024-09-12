@@ -25,6 +25,10 @@ const AppRouter = () => {
                             path: RouterPath.CreateProduct,
                             element: <ProductForm />,
                         },
+                        {
+                            path: RouterPath.EditProduct,
+                            element: <ProductForm />,
+                        },
                     ],
                 },
             ],

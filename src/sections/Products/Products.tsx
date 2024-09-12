@@ -19,7 +19,8 @@ import FilterBar from './FilterBar';
 import useProducts from './useProducts';
 
 const Products = () => {
-    const { tags, memoProducts, handleFilter, clearTags, deleteProduct } = useProducts();
+    const { tags, memoProducts, handleFilter, clearTags, deleteProduct, navigateProductDetail } =
+        useProducts();
 
     return (
         <Container maxWidth="lg" className="mt-6">
@@ -50,7 +51,9 @@ const Products = () => {
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    <Link>{row.title}</Link>
+                                    <Link onClick={() => navigateProductDetail(row.id)}>
+                                        {row.title}
+                                    </Link>
                                 </TableCell>
                                 <TableCell>{row.price}$</TableCell>
                                 <TableCell>{row.productType}</TableCell>

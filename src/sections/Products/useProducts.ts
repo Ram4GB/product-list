@@ -2,7 +2,15 @@ import useProductApi from '@/hooks/useProductApi';
 import { useEffect, useMemo } from 'react';
 
 const useProducts = () => {
-    const { products, tags, fetchProducts, filterTags, clearTags, deleteProduct } = useProductApi();
+    const {
+        products,
+        tags,
+        fetchProducts,
+        filterTags,
+        clearTags,
+        deleteProduct,
+        navigateProductDetail,
+    } = useProductApi();
 
     useEffect(() => {
         fetchProducts({
@@ -25,6 +33,7 @@ const useProducts = () => {
         handleFilter: filterTags,
         clearTags,
         deleteProduct,
+        navigateProductDetail,
     };
 };
 

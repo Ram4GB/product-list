@@ -53,9 +53,13 @@ class Api {
     }
 
     public getProductById(id: string): Promise<Product | undefined> {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             setTimeout(() => {
-                resolve(this.products.find(it => it.id === id));
+                const result = this.products.find(it => it.id === id);
+                if (!result) {
+                    reject(new Error('Product item not found'));
+                }
+                resolve(result);
             }, timeout);
         });
     }
@@ -72,6 +76,21 @@ class Api {
                 ];
                 this.cache();
                 resolve(this.products[this.products.length - 1]);
+            }, timeout);
+        });
+    }
+
+    public updateProduct(product: Product): Promise<Product> {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                const index = this.products.findIndex(it => it.id === product.id);
+                this.products = [
+                    ...this.products.slice(0, index),
+                    product,
+                    ...this.products.slice(index + 1),
+                ];
+                this.cache();
+                resolve(this.products[index]);
             }, timeout);
         });
     }

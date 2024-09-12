@@ -1,3 +1,4 @@
+import { buildEditProductLink } from '@/const/routerPath';
 import {
     deleteProductAsyncThunk,
     getProductListAsyncThunk,
@@ -6,8 +7,10 @@ import {
 import { RootState, useAppDispatch } from '@/store/store';
 import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const useProductApi = () => {
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const products = useSelector((state: RootState) => state.ProductSlice.list);
     const isLoading = useSelector((state: RootState) => state.ProductSlice.isLoading);
@@ -34,6 +37,10 @@ const useProductApi = () => {
         dispatch(deleteProductAsyncThunk(productId));
     };
 
+    const navigateProductDetail = (id: string) => {
+        navigate(buildEditProductLink(id));
+    };
+
     return {
         tags,
         products,
@@ -44,6 +51,7 @@ const useProductApi = () => {
         filterTags,
         fetchProducts,
         deleteProduct,
+        navigateProductDetail,
     };
 };
 

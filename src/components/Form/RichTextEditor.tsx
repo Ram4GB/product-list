@@ -31,10 +31,6 @@ const RichTextEditor: FC<Props> = ({ control, name }) => {
         control,
     });
 
-    // useEffect(() => {
-    //     console.log('richTextRef', richTextRef.current);
-    // }, []);
-
     return (
         <Box
             sx={{
@@ -47,6 +43,7 @@ const RichTextEditor: FC<Props> = ({ control, name }) => {
             }}
         >
             <CKEditor
+                data={field.value}
                 ref={richTextRef}
                 editor={ClassicEditor}
                 config={{
@@ -86,6 +83,9 @@ const RichTextEditor: FC<Props> = ({ control, name }) => {
                 }}
                 onChange={(_event, editorInfo) => {
                     field.onChange(editorInfo.getData());
+                }}
+                onReady={() => {
+                    console.log('first', field);
                 }}
             />
             <FormHelperText error={!!fieldState.error}>{fieldState.error?.message}</FormHelperText>
