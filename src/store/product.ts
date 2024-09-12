@@ -4,15 +4,13 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 interface InitialState {
     list: Product[];
     isLoading: boolean;
-    listError: string | undefined;
-    itemError: string | undefined;
+    listError?: { message: string | undefined; at: Date };
+    itemError?: { message: string | undefined; at: Date };
 }
 
 const initialState: InitialState = {
     list: [],
     isLoading: false,
-    listError: '',
-    itemError: '',
 };
 
 const productSlice = createSlice({
@@ -29,7 +27,10 @@ const productSlice = createSlice({
             })
             .addCase(createProductAsyncThunk.rejected, (state, action) => {
                 state.isLoading = false;
-                state.itemError = action.error.message;
+                state.itemError = {
+                    message: action.error.message,
+                    at: new Date(),
+                };
             })
             .addCase(getProductListAsyncThunk.pending, state => {
                 state.isLoading = true;
@@ -40,7 +41,10 @@ const productSlice = createSlice({
             })
             .addCase(getProductListAsyncThunk.rejected, (state, error) => {
                 state.isLoading = false;
-                state.listError = error.error.message;
+                state.listError = {
+                    message: `${error.error.message} ${error.payload}`,
+                    at: new Date(),
+                };
             }),
 });
 
@@ -61,7 +65,13 @@ export const getProductListAsyncThunk = createAsyncThunk(
             const result = await mockApi.getListProducts();
             return result;
         } catch (error) {
-            return thunkApi.rejectWithValue(error);
+            if (error instanceof Error) {
+                // If server responses the error
+                // Ex: Error('Failed to load list')
+                return thunkApi.rejectWithValue(error.message);
+            }
+
+            return thunkApi.rejectWithValue(new Error('Unhandle error'));
         }
     },
 );
