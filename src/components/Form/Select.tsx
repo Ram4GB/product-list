@@ -1,4 +1,4 @@
-import { MenuItem, Select as MuiSelect, SelectProps } from '@mui/material';
+import { MenuItem, Select as MuiSelect } from '@mui/material';
 import { FC } from 'react';
 
 interface Props {

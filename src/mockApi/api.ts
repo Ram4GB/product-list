@@ -65,32 +65,40 @@ class Api {
     }
 
     public createProduct(product: Omit<Product, 'id'>): Promise<Product> {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             setTimeout(() => {
-                this.products = [
-                    ...this.products,
-                    {
-                        ...product,
-                        id: uuid.v4(),
-                    },
-                ];
-                this.cache();
-                resolve(this.products[this.products.length - 1]);
+                try {
+                    this.products = [
+                        ...this.products,
+                        {
+                            ...product,
+                            id: uuid.v4(),
+                        },
+                    ];
+                    this.cache();
+                    resolve(this.products[this.products.length - 1]);
+                } catch (error) {
+                    reject(error);
+                }
             }, timeout);
         });
     }
 
     public updateProduct(product: Product): Promise<Product> {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             setTimeout(() => {
-                const index = this.products.findIndex(it => it.id === product.id);
-                this.products = [
-                    ...this.products.slice(0, index),
-                    product,
-                    ...this.products.slice(index + 1),
-                ];
-                this.cache();
-                resolve(this.products[index]);
+                try {
+                    const index = this.products.findIndex(it => it.id === product.id);
+                    this.products = [
+                        ...this.products.slice(0, index),
+                        product,
+                        ...this.products.slice(index + 1),
+                    ];
+                    this.cache();
+                    resolve(this.products[index]);
+                } catch (error) {
+                    reject(error);
+                }
             }, timeout);
         });
     }

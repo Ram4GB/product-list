@@ -75,6 +75,7 @@ const FileUpload: ForwardRefRenderFunction<Props> = (_props, ref) => {
                 tabIndex={-1}
                 startIcon={<CloudUploadIcon />}
                 color="secondary"
+                className="h-24"
             >
                 Upload files
                 <VisuallyHiddenInput
