@@ -1,22 +1,32 @@
 import mockApi, { Product } from '@/mockApi/api';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 interface InitialState {
     list: Product[];
     isLoading: boolean;
     listError?: { message: string | undefined; at: Date };
     itemError?: { message: string | undefined; at: Date };
+    filters: {
+        tags: string[];
+    };
 }
 
 const initialState: InitialState = {
     list: [],
     isLoading: false,
+    filters: {
+        tags: [],
+    },
 };
 
 const productSlice = createSlice({
     name: 'ProductSlice',
     initialState,
-    reducers: {},
+    reducers: {
+        setTags: (state, action: PayloadAction<string[]>) => {
+            state.filters.tags = action.payload;
+        },
+    },
     extraReducers: builders =>
         builders
             .addCase(createProductAsyncThunk.pending, state => {
@@ -70,9 +80,9 @@ export const createProductAsyncThunk = createAsyncThunk(
 
 export const getProductListAsyncThunk = createAsyncThunk(
     `${name}/getProductList`,
-    async (_params: void, thunkApi) => {
+    async (params: { tags?: string[] }, thunkApi) => {
         try {
-            const result = await mockApi.getListProducts();
+            const result = await mockApi.getListProducts(params);
             return result;
         } catch (error) {
             if (error instanceof Error) {

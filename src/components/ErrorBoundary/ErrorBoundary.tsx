@@ -26,10 +26,10 @@ class ErrorBoundary extends React.Component<Props, State> {
     }
 
     componentDidCatch(_error: any, info: any) {
-        return {
+        this.setState({
             hasError: true,
             error: info.componentStack,
-        };
+        });
     }
 
     render(): ReactNode {
@@ -43,7 +43,6 @@ class ErrorBoundary extends React.Component<Props, State> {
                         width: '100vw',
                         height: '100vh',
                         fontSize: '1.2rem',
-                        textTransform: 'uppercase',
                     }}
                 >
                     There is something wrong with our app {this.state.error}

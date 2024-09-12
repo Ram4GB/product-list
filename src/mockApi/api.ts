@@ -24,9 +24,27 @@ class Api {
         this.products = JSON.parse(localStorage.getItem(keyStore) ?? '[]');
     }
 
-    public getListProducts(): Promise<Product[]> {
+    public getListProducts(params: { tags?: string[] }): Promise<Product[]> {
         return new Promise(resolve => {
             setTimeout(() => {
+                if (params?.tags && params.tags.length) {
+                    const result = [];
+                    for (let i = 0; i < this.products.length; i++) {
+                        let flag = false;
+                        for (let j = 0; j < params.tags.length; j++) {
+                            if (this.products[i].tags?.includes(params.tags[j])) {
+                                flag = true;
+                                break;
+                            }
+                        }
+
+                        if (flag) {
+                            result.push(this.products[i]);
+                        }
+                    }
+
+                    resolve(result);
+                }
                 resolve(this.products);
             }, timeout);
         });

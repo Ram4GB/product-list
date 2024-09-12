@@ -2,8 +2,9 @@ import FileUpload from '@/components/Form/FileUpload/FileUpload';
 import Form from '@/components/Form/Form';
 import InputControl from '@/components/Form/Input';
 import RichTextEditor from '@/components/Form/RichTextEditor';
-import SelectControl from '@/components/Form/Select';
+import SelectControl from '@/components/Form/SelectControl';
 import { RouterPath } from '@/const/routerPath';
+import { tags } from '@/mockApi/data';
 import { createProductAsyncThunk } from '@/store/product';
 import { RootState, useAppDispatch } from '@/store/store';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -97,24 +98,7 @@ const CreateProduct = () => {
                     name="tags"
                     control={form.control}
                     label="Tags"
-                    menus={[
-                        {
-                            label: 'Tag1',
-                            value: 'tag1',
-                        },
-                        {
-                            label: 'Tag2',
-                            value: 'tag2',
-                        },
-                        {
-                            label: 'Tag3',
-                            value: 'tag3',
-                        },
-                        {
-                            label: 'Tag4',
-                            value: 'tag4',
-                        },
-                    ]}
+                    menus={tags}
                 />
                 <FileUpload ref={formRef} />
                 <Button disabled={loading} type="submit" variant="contained" color="primary">

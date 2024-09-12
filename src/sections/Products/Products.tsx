@@ -1,6 +1,7 @@
 import Heading from '@/components/Heading';
-import useProductApi from '@/hooks/useProductApi';
 import {
+    Box,
+    Chip,
     Container,
     Paper,
     Table,
@@ -10,18 +11,17 @@ import {
     TableHead,
     TableRow,
 } from '@mui/material';
-import { useEffect } from 'react';
+
+import FilterBar from './FilterBar';
+import useProducts from './useProducts';
 
 const Products = () => {
-    const { products, fetchProducts } = useProductApi();
-
-    useEffect(() => {
-        fetchProducts();
-    }, [fetchProducts]);
+    const { tags, memoProducts, handleFilter, clearTags } = useProducts();
 
     return (
-        <Container maxWidth="md" className="mt-6">
+        <Container maxWidth="lg" className="mt-6">
             <Heading level="h1">Products</Heading>
+            <FilterBar status={tags} onFilter={handleFilter} clearFilter={clearTags} />
             <TableContainer className="relative" component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
@@ -30,11 +30,11 @@ const Products = () => {
                             <TableCell>Title</TableCell>
                             <TableCell>Price</TableCell>
                             <TableCell>Product Type</TableCell>
-                            <TableCell>Type</TableCell>
+                            <TableCell>Tags</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {products.map(row => (
+                        {memoProducts.map(row => (
                             <TableRow
                                 key={row.id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -46,9 +46,19 @@ const Products = () => {
                                     />
                                 </TableCell>
                                 <TableCell>{row.title}</TableCell>
-                                <TableCell>{row.price}</TableCell>
+                                <TableCell>{row.price}$</TableCell>
                                 <TableCell>{row.productType}</TableCell>
-                                <TableCell>{row.productType}</TableCell>
+                                <TableCell>
+                                    <Box sx={{ display: 'flex', gap: 1 }}>
+                                        {row.tags?.map((tag, index) => (
+                                            <Chip
+                                                label={tag}
+                                                color="primary"
+                                                key={`${row.id}-${index}`}
+                                            />
+                                        ))}
+                                    </Box>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
