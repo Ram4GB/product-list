@@ -3,7 +3,9 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { Button, styled } from '@mui/material';
 import {
     ChangeEvent,
+    Dispatch,
     ForwardRefRenderFunction,
+    SetStateAction,
     forwardRef,
     useImperativeHandle,
     useRef,
@@ -11,7 +13,7 @@ import {
 } from 'react';
 import * as uuid from 'uuid';
 
-import ImageList from './ImageList';
+import ImageList, { Image } from './ImageList';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -25,12 +27,17 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
+export interface FileUploadExpose {
+    listImage?: Image[];
+    setListImage: Dispatch<SetStateAction<Image[]>>;
+}
+
 interface Props {}
 
 const FileUpload: ForwardRefRenderFunction<Props> = (_props, ref) => {
     const fileRef = useRef<HTMLInputElement>(null);
 
-    const [listImage, setListImage] = useState<{ id: string; value: string }[]>([]);
+    const [listImage, setListImage] = useState<Image[]>([]);
 
     const handleUploadImage = async (e: ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return;

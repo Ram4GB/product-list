@@ -3,6 +3,7 @@ import {
     Box,
     Chip,
     Container,
+    Link,
     Paper,
     Table,
     TableBody,
@@ -45,7 +46,9 @@ const Products = () => {
                                         src={row.media[0].value}
                                     />
                                 </TableCell>
-                                <TableCell>{row.title}</TableCell>
+                                <TableCell>
+                                    <Link>{row.title}</Link>
+                                </TableCell>
                                 <TableCell>{row.price}$</TableCell>
                                 <TableCell>{row.productType}</TableCell>
                                 <TableCell>
