@@ -1,6 +1,8 @@
 import mockApi, { Product } from '@/mockApi/api';
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+import { RootState } from './store';
+
 interface InitialState {
     list: Product[];
     isLoading: boolean;
@@ -65,6 +67,7 @@ export const createProductAsyncThunk = createAsyncThunk(
     async (product: Omit<Product, 'id'>, thunkApi) => {
         try {
             const result = await mockApi.createProduct(product);
+            // thunkApi.dispatch(getProductListAsyncThunk({}));
             return result;
         } catch (error) {
             if (error instanceof Error) {
@@ -82,7 +85,29 @@ export const getProductListAsyncThunk = createAsyncThunk(
     `${name}/getProductList`,
     async (params: { tags?: string[] }, thunkApi) => {
         try {
-            const result = await mockApi.getListProducts(params);
+            const tags =
+                params.tags ??
+                (thunkApi.getState() as unknown as RootState).ProductSlice.filters.tags;
+            const result = await mockApi.getListProducts({ tags });
+            return result;
+        } catch (error) {
+            if (error instanceof Error) {
+                // If server responses the error
+                // Ex: Error('Failed to load list')
+                return thunkApi.rejectWithValue(error.message);
+            }
+
+            return thunkApi.rejectWithValue(new Error('Unhandle error'));
+        }
+    },
+);
+
+export const deleteProductAsyncThunk = createAsyncThunk(
+    `${name}/deleteProduct`,
+    async (productId: string, thunkApi) => {
+        try {
+            const result = await mockApi.deleteProduct(productId);
+            thunkApi.dispatch(getProductListAsyncThunk({}));
             return result;
         } catch (error) {
             if (error instanceof Error) {

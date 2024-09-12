@@ -1,3 +1,5 @@
+import * as uuid from 'uuid';
+
 export interface Image {
     id: string;
     value: string;
@@ -65,12 +67,22 @@ class Api {
                     ...this.products,
                     {
                         ...product,
-                        id: this.products.length.toString(),
+                        id: uuid.v4(),
                     },
                 ];
                 this.cache();
                 resolve(this.products[this.products.length - 1]);
             }, timeout);
+        });
+    }
+
+    public deleteProduct(productId: string): Promise<boolean> {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                this.products = this.products.filter(it => it.id !== productId);
+                this.cache();
+                resolve(true);
+            });
         });
     }
 

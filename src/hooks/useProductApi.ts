@@ -1,4 +1,8 @@
-import { getProductListAsyncThunk, actions as productActions } from '@/store/product';
+import {
+    deleteProductAsyncThunk,
+    getProductListAsyncThunk,
+    actions as productActions,
+} from '@/store/product';
 import { RootState, useAppDispatch } from '@/store/store';
 import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
@@ -26,6 +30,10 @@ const useProductApi = () => {
         dispatch(productActions.setTags([]));
     };
 
+    const deleteProduct = (productId: string) => {
+        dispatch(deleteProductAsyncThunk(productId));
+    };
+
     return {
         tags,
         products,
@@ -35,6 +43,7 @@ const useProductApi = () => {
         clearTags,
         filterTags,
         fetchProducts,
+        deleteProduct,
     };
 };
 

@@ -1,6 +1,8 @@
 import Heading from '@/components/Heading';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
     Box,
+    Button,
     Chip,
     Container,
     Link,
@@ -17,7 +19,7 @@ import FilterBar from './FilterBar';
 import useProducts from './useProducts';
 
 const Products = () => {
-    const { tags, memoProducts, handleFilter, clearTags } = useProducts();
+    const { tags, memoProducts, handleFilter, clearTags, deleteProduct } = useProducts();
 
     return (
         <Container maxWidth="lg" className="mt-6">
@@ -32,6 +34,7 @@ const Products = () => {
                             <TableCell>Price</TableCell>
                             <TableCell>Product Type</TableCell>
                             <TableCell>Tags</TableCell>
+                            <TableCell>Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -61,6 +64,16 @@ const Products = () => {
                                             />
                                         ))}
                                     </Box>
+                                </TableCell>
+                                <TableCell>
+                                    <Button
+                                        onClick={() => deleteProduct(row.id)}
+                                        type="button"
+                                        variant="outlined"
+                                        color="error"
+                                    >
+                                        <DeleteIcon />
+                                    </Button>
                                 </TableCell>
                             </TableRow>
                         ))}
