@@ -1,17 +1,28 @@
 import { tags } from '@/mockApi/data';
 import ClearIcon from '@mui/icons-material/Clear';
+import RecyclingIcon from '@mui/icons-material/Recycling';
 import { Button, MenuItem, Select, Stack } from '@mui/material';
 import { FC } from 'react';
 
 interface Props {
     status: string[];
+    selectedIds?: Record<string, boolean>;
+    bulkDeleteProduct: () => void;
     onFilter: (tag: string[]) => void;
     clearFilter: () => void;
 }
 
-const FilterBar: FC<Props> = ({ status, onFilter, clearFilter }) => {
+const FilterBar: FC<Props> = ({
+    status,
+    selectedIds,
+    onFilter,
+    clearFilter,
+    bulkDeleteProduct,
+}) => {
+    const isBulkDelete = Object.values(selectedIds ?? {}).find(it => it);
+
     return (
-        <Stack className="mb-6" flexWrap="nowrap" flexDirection="row">
+        <Stack className="mb-6" flexWrap="nowrap" flexDirection="row" gap={2}>
             <Select
                 sx={{ flex: 1 }}
                 displayEmpty
@@ -35,6 +46,19 @@ const FilterBar: FC<Props> = ({ status, onFilter, clearFilter }) => {
                     </MenuItem>
                 ))}
             </Select>
+
+            {isBulkDelete && (
+                <Button
+                    variant="outlined"
+                    startIcon={<RecyclingIcon />}
+                    onClick={bulkDeleteProduct}
+                    sx={{ flexShrink: 0 }}
+                    color="error"
+                >
+                    Delete selected items
+                </Button>
+            )}
+
             {status.length > 0 && (
                 <Button onClick={clearFilter} sx={{ flexShrink: 0 }}>
                     <ClearIcon />

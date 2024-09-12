@@ -86,6 +86,19 @@ const productSlice = createSlice({
                     message: `${error.error.message} ${error.payload}`,
                     at: new Date(),
                 };
+            })
+            .addCase(bulkDeleteProductAsyncThunk.pending, state => {
+                state.isLoading = true;
+            })
+            .addCase(bulkDeleteProductAsyncThunk.fulfilled, state => {
+                state.isLoading = false;
+            })
+            .addCase(bulkDeleteProductAsyncThunk.rejected, (state, error) => {
+                state.isLoading = false;
+                state.listError = {
+                    message: `${error.error.message} ${error.payload}`,
+                    at: new Date(),
+                };
             }),
 });
 
@@ -173,6 +186,25 @@ export const deleteProductAsyncThunk = createAsyncThunk(
     async (productId: string, thunkApi) => {
         try {
             const result = await mockApi.deleteProduct(productId);
+            thunkApi.dispatch(getProductListAsyncThunk({}));
+            return result;
+        } catch (error) {
+            if (error instanceof Error) {
+                // If server responses the error
+                // Ex: Error('Failed to load list')
+                return thunkApi.rejectWithValue(error.message);
+            }
+
+            return thunkApi.rejectWithValue(new Error('Unhandle error'));
+        }
+    },
+);
+
+export const bulkDeleteProductAsyncThunk = createAsyncThunk(
+    `${name}/bulkDeleteProduct`,
+    async (productIds: string[], thunkApi) => {
+        try {
+            const result = await mockApi.bulkDeleteProduct(productIds);
             thunkApi.dispatch(getProductListAsyncThunk({}));
             return result;
         } catch (error) {

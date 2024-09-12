@@ -105,6 +105,16 @@ class Api {
         });
     }
 
+    public bulkDeleteProduct(productIds: string[]): Promise<boolean> {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                this.products = this.products.filter(it => productIds.indexOf(it.id) === -1);
+                this.cache();
+                resolve(true);
+            }, timeout);
+        });
+    }
+
     private cache() {
         localStorage.setItem(keyStore, JSON.stringify(this.products));
     }

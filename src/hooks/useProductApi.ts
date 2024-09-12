@@ -1,5 +1,6 @@
 import { buildEditProductLink } from '@/const/routerPath';
 import {
+    bulkDeleteProductAsyncThunk,
     deleteProductAsyncThunk,
     getProductListAsyncThunk,
     actions as productActions,
@@ -41,6 +42,10 @@ const useProductApi = () => {
         navigate(buildEditProductLink(id));
     };
 
+    const bulkDeleteProduct = (ids: string[]) => {
+        return dispatch(bulkDeleteProductAsyncThunk(ids));
+    };
+
     return {
         tags,
         products,
@@ -52,6 +57,7 @@ const useProductApi = () => {
         fetchProducts,
         deleteProduct,
         navigateProductDetail,
+        bulkDeleteProduct,
     };
 };
 

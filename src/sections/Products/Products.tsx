@@ -3,6 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {
     Box,
     Button,
+    Checkbox,
     Chip,
     Container,
     Link,
@@ -19,17 +20,35 @@ import FilterBar from './FilterBar';
 import useProducts from './useProducts';
 
 const Products = () => {
-    const { tags, memoProducts, handleFilter, clearTags, deleteProduct, navigateProductDetail } =
-        useProducts();
+    const {
+        tags,
+        selectedIds,
+        memoProducts,
+        handleFilter,
+        clearTags,
+        deleteProduct,
+        navigateProductDetail,
+        handleToggleSelectItem,
+        confirmBulkDelete,
+    } = useProducts();
+
+    console.log('selectedIds', selectedIds);
 
     return (
         <Container maxWidth="lg" className="mt-6">
             <Heading level="h1">Products</Heading>
-            <FilterBar status={tags} onFilter={handleFilter} clearFilter={clearTags} />
+            <FilterBar
+                status={tags}
+                selectedIds={selectedIds}
+                onFilter={handleFilter}
+                clearFilter={clearTags}
+                bulkDeleteProduct={confirmBulkDelete}
+            />
             <TableContainer className="relative" component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
+                            <TableCell></TableCell>
                             <TableCell>Image</TableCell>
                             <TableCell>Title</TableCell>
                             <TableCell>Price</TableCell>
@@ -44,6 +63,12 @@ const Products = () => {
                                 key={row.id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
+                                <TableCell>
+                                    <Checkbox
+                                        onChange={() => handleToggleSelectItem(row.id)}
+                                        checked={selectedIds[row.id]}
+                                    />
+                                </TableCell>
                                 <TableCell component="th" scope="row">
                                     <img
                                         className="w-36 h-16 object-cover"
