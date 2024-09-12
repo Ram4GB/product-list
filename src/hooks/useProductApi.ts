@@ -6,8 +6,7 @@ import { useSelector } from 'react-redux';
 const useProductApi = () => {
     const dispatch = useAppDispatch();
     const products = useSelector((state: RootState) => state.ProductSlice.list);
-    const isLoadingList = useSelector((state: RootState) => state.ProductSlice.isLoadingList);
-    const isLoadingItem = useSelector((state: RootState) => state.ProductSlice.isLoadingItem);
+    const isLoading = useSelector((state: RootState) => state.ProductSlice.isLoading);
     const itemError = useSelector((state: RootState) => state.ProductSlice.itemError);
     const listError = useSelector((state: RootState) => state.ProductSlice.listError);
 
@@ -17,8 +16,7 @@ const useProductApi = () => {
 
     return {
         products,
-        isLoadingList,
-        isLoadingItem,
+        isLoading,
         itemError,
         listError,
         fetchProducts,

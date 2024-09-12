@@ -1,3 +1,8 @@
+export interface Image {
+    id: string;
+    value: string;
+}
+
 export interface Product {
     id: string;
     title: string;
@@ -5,6 +10,7 @@ export interface Product {
     price: number;
     productType?: string;
     tags?: string[];
+    media: Image[];
 }
 
 const timeout = 2000;

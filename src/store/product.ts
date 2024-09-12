@@ -3,16 +3,14 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 interface InitialState {
     list: Product[];
-    isLoadingItem: boolean;
-    isLoadingList: boolean;
+    isLoading: boolean;
     listError: string | undefined;
     itemError: string | undefined;
 }
 
 const initialState: InitialState = {
     list: [],
-    isLoadingItem: false,
-    isLoadingList: false,
+    isLoading: true,
     listError: '',
     itemError: '',
 };
@@ -24,24 +22,24 @@ const productSlice = createSlice({
     extraReducers: builders =>
         builders
             .addCase(createProductAsyncThunk.pending, state => {
-                state.isLoadingItem = true;
+                state.isLoading = true;
             })
             .addCase(createProductAsyncThunk.fulfilled, state => {
-                state.isLoadingItem = false;
+                state.isLoading = false;
             })
             .addCase(createProductAsyncThunk.rejected, (state, action) => {
-                state.isLoadingItem = false;
+                state.isLoading = false;
                 state.itemError = action.error.message;
             })
             .addCase(getProductListAsyncThunk.pending, state => {
-                state.isLoadingItem = true;
+                state.isLoading = true;
             })
             .addCase(getProductListAsyncThunk.fulfilled, (state, action) => {
-                state.isLoadingItem = false;
+                state.isLoading = false;
                 state.list = action.payload;
             })
             .addCase(getProductListAsyncThunk.rejected, (state, error) => {
-                state.isLoadingItem = false;
+                state.isLoading = false;
                 state.listError = error.error.message;
             }),
 });

@@ -13,7 +13,7 @@ import {
 import { useEffect } from 'react';
 
 const HomePage = () => {
-    const { isLoadingList, products, fetchProducts } = useProductApi();
+    const { products, fetchProducts } = useProductApi();
 
     useEffect(() => {
         fetchProducts();
@@ -22,16 +22,15 @@ const HomePage = () => {
     return (
         <Container maxWidth="md" className="mt-6">
             <Heading level="h1">Products</Heading>
-            {isLoadingList ? 'loading' : 'dasd'}
-            <TableContainer component={Paper}>
+            <TableContainer className="relative" component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell>Image</TableCell>
-                            <TableCell align="right">Title</TableCell>
-                            <TableCell align="right">Price</TableCell>
-                            <TableCell align="right">Product Type</TableCell>
-                            <TableCell align="right">Type</TableCell>
+                            <TableCell>Title</TableCell>
+                            <TableCell>Price</TableCell>
+                            <TableCell>Product Type</TableCell>
+                            <TableCell>Type</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -41,12 +40,15 @@ const HomePage = () => {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">
-                                    {/* {row.name} */}
+                                    <img
+                                        className="w-36 h-16 object-cover"
+                                        src={row.media[0].value}
+                                    />
                                 </TableCell>
-                                <TableCell align="right">{row.title}</TableCell>
-                                <TableCell align="right">{row.price}</TableCell>
-                                <TableCell align="right">{row.productType}</TableCell>
-                                <TableCell align="right">{row.productType}</TableCell>
+                                <TableCell>{row.title}</TableCell>
+                                <TableCell>{row.price}</TableCell>
+                                <TableCell>{row.productType}</TableCell>
+                                <TableCell>{row.productType}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

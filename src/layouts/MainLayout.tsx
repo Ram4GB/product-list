@@ -6,7 +6,7 @@ const MainLayout = () => {
     return (
         <React.Fragment>
             <Header />
-            <Suspense fallback="loading">
+            <Suspense fallback={null}>
                 <Outlet />
             </Suspense>
         </React.Fragment>

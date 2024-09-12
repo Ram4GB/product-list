@@ -1,15 +1,18 @@
+import FileUpload from '@/components/Form/FileUpload/FileUpload';
 import Form from '@/components/Form/Form';
 import InputControl from '@/components/Form/Input';
 import RichTextEditor from '@/components/Form/RichTextEditor';
 import SelectControl from '@/components/Form/Select';
-import { Product } from '@/mockApi/api';
+import { RouterPath } from '@/const/routerPath';
 import { createProductAsyncThunk } from '@/store/product';
 import { RootState, useAppDispatch } from '@/store/store';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Stack } from '@mui/material';
 import { useSnackbar } from 'notistack';
+import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 
 const schema = yup
@@ -22,12 +25,22 @@ const schema = yup
     })
     .required();
 
-type FormData = Omit<Product, 'id'>;
+type FormData = {
+    title: string;
+    description: string;
+    price: number;
+    productType?: string;
+    tags?: string[];
+};
 
 const CreateProduct = () => {
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const { enqueueSnackbar } = useSnackbar();
 
-    const loading = useSelector((state: RootState) => state.ProductSlice.isLoadingItem);
+    const formRef = useRef<any>();
+
+    const loading = useSelector((state: RootState) => state.ProductSlice.isLoading);
 
     const form = useForm<FormData>({
         defaultValues: {
@@ -40,13 +53,21 @@ const CreateProduct = () => {
         resolver: yupResolver(schema),
     });
 
-    const dispatch = useAppDispatch();
-
     const onSubmit = (data: FormData) => {
-        dispatch(createProductAsyncThunk(data))
+        if (formRef.current.listImage.length === 0) {
+            return enqueueSnackbar('Please upload at least 1 media', { variant: 'error' });
+        }
+
+        dispatch(
+            createProductAsyncThunk({
+                ...data,
+                media: formRef.current.listImage,
+            }),
+        )
             .unwrap()
             .then(pro => {
                 enqueueSnackbar('Add ' + pro.title + ' successfully ', { variant: 'success' });
+                navigate(RouterPath.Products);
             });
     };
 
@@ -95,6 +116,7 @@ const CreateProduct = () => {
                         },
                     ]}
                 />
+                <FileUpload ref={formRef} />
                 <Button disabled={loading} type="submit" variant="contained" color="primary">
                     Submit
                 </Button>
