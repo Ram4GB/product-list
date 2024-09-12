@@ -4,7 +4,7 @@ import InputControl from '@/components/Form/Input';
 import RichTextEditor from '@/components/Form/RichTextEditor';
 import SelectControl from '@/components/Form/SelectControl';
 import { RouterPath } from '@/const/routerPath';
-import { tags } from '@/mockApi/data';
+import { productType, tags } from '@/mockApi/data';
 import { createProductAsyncThunk } from '@/store/product';
 import { RootState, useAppDispatch } from '@/store/store';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -82,16 +82,7 @@ const CreateProduct = () => {
                     name="productType"
                     control={form.control}
                     label="Product Type"
-                    menus={[
-                        {
-                            label: 'Pillow',
-                            value: 'pillow',
-                        },
-                        {
-                            label: 'Handbook',
-                            value: 'handbook',
-                        },
-                    ]}
+                    menus={productType}
                 />
                 <SelectControl
                     multiple

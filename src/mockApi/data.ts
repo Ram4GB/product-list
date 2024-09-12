@@ -16,3 +16,14 @@ export const tags = [
         value: 'tag4',
     },
 ];
+
+export const productType = [
+    {
+        label: 'Pillow',
+        value: 'pillow',
+    },
+    {
+        label: 'Handbook',
+        value: 'handbook',
+    },
+];
