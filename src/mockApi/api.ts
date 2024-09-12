@@ -13,7 +13,7 @@ class Api {
     private products: Array<Product> = [];
     constructor() {}
 
-    public getListProducts() {
+    public getListProducts(): Promise<Product[]> {
         return new Promise(resolve => {
             setTimeout(() => {
                 resolve(this.products);
@@ -21,7 +21,7 @@ class Api {
         });
     }
 
-    public getProductById(id: string) {
+    public getProductById(id: string): Promise<Product | undefined> {
         return new Promise(resolve => {
             setTimeout(() => {
                 resolve(this.products.find(it => it.id === id));
@@ -29,13 +29,16 @@ class Api {
         });
     }
 
-    public createProduct(product: Omit<Product, 'id'>) {
+    public createProduct(product: Omit<Product, 'id'>): Promise<Product> {
         return new Promise(resolve => {
             setTimeout(() => {
-                this.products.push({
-                    ...product,
-                    id: this.products.length.toString(),
-                });
+                this.products = [
+                    ...this.products,
+                    {
+                        ...product,
+                        id: this.products.length.toString(),
+                    },
+                ];
                 resolve(this.products[this.products.length - 1]);
             }, timeout);
         });

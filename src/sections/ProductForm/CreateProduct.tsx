@@ -3,9 +3,13 @@ import InputControl from '@/components/Form/Input';
 import RichTextEditor from '@/components/Form/RichTextEditor';
 import SelectControl from '@/components/Form/Select';
 import { Product } from '@/mockApi/api';
+import { createProductAsyncThunk } from '@/store/product';
+import { RootState, useAppDispatch } from '@/store/store';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Stack } from '@mui/material';
+import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 
 const schema = yup
@@ -21,6 +25,10 @@ const schema = yup
 type FormData = Omit<Product, 'id'>;
 
 const CreateProduct = () => {
+    const { enqueueSnackbar } = useSnackbar();
+
+    const loading = useSelector((state: RootState) => state.ProductSlice.isLoadingItem);
+
     const form = useForm<FormData>({
         defaultValues: {
             title: '',
@@ -32,8 +40,14 @@ const CreateProduct = () => {
         resolver: yupResolver(schema),
     });
 
+    const dispatch = useAppDispatch();
+
     const onSubmit = (data: FormData) => {
-        console.log('data', data);
+        dispatch(createProductAsyncThunk(data))
+            .unwrap()
+            .then(pro => {
+                enqueueSnackbar('Add ' + pro.title + ' successfully ', { variant: 'success' });
+            });
     };
 
     return (
@@ -81,7 +95,7 @@ const CreateProduct = () => {
                         },
                     ]}
                 />
-                <Button type="submit" variant="contained" color="primary">
+                <Button disabled={loading} type="submit" variant="contained" color="primary">
                     Submit
                 </Button>
             </Stack>

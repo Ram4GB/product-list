@@ -13,4 +13,8 @@ export const headerMenus = [
         name: 'Products',
         path: RouterPath.Products,
     },
+    {
+        name: 'Create Product',
+        path: RouterPath.CreateProduct,
+    },
 ];
