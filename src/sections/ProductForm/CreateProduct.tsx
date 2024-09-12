@@ -17,9 +17,9 @@ import * as yup from 'yup';
 
 const schema = yup
     .object({
-        title: yup.string().required(),
-        description: yup.string().required(),
-        price: yup.number().required().min(1),
+        title: yup.string().required().max(255),
+        description: yup.string().required().max(255),
+        price: yup.number().required().min(1).typeError('Please enter number'),
         productType: yup.string().optional(),
         tags: yup.array().of(yup.string().required()).optional(),
     })

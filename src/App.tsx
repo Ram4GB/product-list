@@ -7,7 +7,7 @@ import store from './store/store';
 
 const App = () => {
     return (
-        <SnackbarProvider maxSnack={5}>
+        <SnackbarProvider maxSnack={5} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
             <Provider store={store}>
                 <AppRouter />
             </Provider>
