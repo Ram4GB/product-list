@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { useEffect } from 'react';
 
-const HomePage = () => {
+const Products = () => {
     const { products, fetchProducts } = useProductApi();
 
     useEffect(() => {
@@ -58,4 +58,4 @@ const HomePage = () => {
     );
 };
 
-export default HomePage;
+export default Products;

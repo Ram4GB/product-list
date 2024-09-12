@@ -13,11 +13,16 @@ export interface Product {
     media: Image[];
 }
 
-const timeout = 2000;
+const timeout = 1000;
+
+const keyStore = 'cache-app';
 
 class Api {
     private products: Array<Product> = [];
-    constructor() {}
+
+    constructor() {
+        this.products = JSON.parse(localStorage.getItem(keyStore) ?? '[]');
+    }
 
     public getListProducts(): Promise<Product[]> {
         return new Promise(resolve => {
@@ -45,9 +50,14 @@ class Api {
                         id: this.products.length.toString(),
                     },
                 ];
+                this.cache();
                 resolve(this.products[this.products.length - 1]);
             }, timeout);
         });
+    }
+
+    private cache() {
+        localStorage.setItem(keyStore, JSON.stringify(this.products));
     }
 }
 

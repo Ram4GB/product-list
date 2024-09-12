@@ -1,7 +1,7 @@
 import MainLayout from '@/layouts/MainLayout';
-import Homepage from '@/sections/Homepage';
-import ProductForm from '@/sections/ProductForm';
-import Products from '@/sections/Products';
+import Homepage from '@/sections/Homepage/';
+import ProductForm from '@/sections/ProductForm/withLoading';
+import Products from '@/sections/Products/withLoading';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { RouterPath } from '../const/routerPath';

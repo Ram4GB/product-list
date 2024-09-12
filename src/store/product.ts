@@ -10,7 +10,7 @@ interface InitialState {
 
 const initialState: InitialState = {
     list: [],
-    isLoading: true,
+    isLoading: false,
     listError: '',
     itemError: '',
 };
