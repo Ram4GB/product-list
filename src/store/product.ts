@@ -52,9 +52,19 @@ export const { actions, reducer, name } = productSlice;
 
 export const createProductAsyncThunk = createAsyncThunk(
     `${name}/createProduct`,
-    async (product: Omit<Product, 'id'>) => {
-        const result = await mockApi.createProduct(product);
-        return result;
+    async (product: Omit<Product, 'id'>, thunkApi) => {
+        try {
+            const result = await mockApi.createProduct(product);
+            return result;
+        } catch (error) {
+            if (error instanceof Error) {
+                // If server responses the error
+                // Ex: Error('Failed to load list')
+                return thunkApi.rejectWithValue(error.message);
+            }
+
+            return thunkApi.rejectWithValue(new Error('Unhandle error'));
+        }
     },
 );
 
