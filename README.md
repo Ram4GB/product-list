@@ -1,6 +1,29 @@
 # UID
 
-## Run source
+## Run source with docker
+
+### Create an image
+```
+docker build -t uid-app .
+```
+
+### Run image
+```
+docker run -dp 127.0.0.1:3000:3000 uid-app
+```
+
+### Make sure docker image work correctly
+```
+docker ps
+```
+
+Once run image, docker will create a new container according to the image. If everything works fine, docker will pull it up on table here.
+
+### Open website
+
+The website is now online, you can open the url [here](http://127.0.0.1:3000/products)
+
+## Run source manually
 
 ```
 yarn
@@ -33,5 +56,5 @@ serve -s dist
 
 ## Repo
 
-You can follow my commit on github rep [https://github.com/Ram4GB/product-list](https://github.com/Ram4GB/product-list)
+You can follow my commit on github rep [https://github.com/Ram4GB/product-list/commits/master/](https://github.com/Ram4GB/product-list/commits/master/)
 
